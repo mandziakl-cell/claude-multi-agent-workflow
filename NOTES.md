@@ -31,8 +31,11 @@ I ran headless tests (`claude -p`) in throwaway copies, with `npm install` only 
 - **Result on `course-api`:** `test-writer` added 32 tests (18 normal, 14 `todo` for bugs) and changed no application code. I ran the suite myself: 37 tests, 23 pass, 0 fail, 14 todo, and lint exits 0.
 - **Skill:** it fired, without being named, for "Add tests for the GET /health route in course-api."
 - **Hook:** it exits 2 with the ESLint report for a file with a lint error, and exits 0 for a clean file. It ignores other file types, `node_modules`, and folders without ESLint.
+- **Marketplace install:** I added the marketplace from GitHub at my branch and installed `api-quality-kit@api-quality-kit-marketplace` with `--scope local`, in a throwaway project and an isolated Claude config folder. The plugin was enabled at version 0.1.0 and had every component. In a fresh session with the installed copy loaded, the workflow ran in the right order: 38 tests, 21 pass, 0 fail, 17 todo, and lint exits 0. My real `settings.json` and plugin registry did not change.
 
 ## A limit I found
 If I load the plugin with `claude --plugin-dir .` from the repo root, and the API is inside that same folder, Claude Code blocks every write in the folder as a "sensitive file". In my headless runs `Write` and `Edit` were denied, so `test-writer` wrote nothing and the hook never ran. This also happened with `acceptEdits` and with a foreground subagent, and even for a plain write by the main session, so it is not caused by my agents. The reviewers only read, so they were not affected. Loading the plugin from its own folder, with the API in another project folder, worked.
 
-I have not tested two things yet: whether an interactive session lets me approve those writes, and installing the plugin from the marketplace. So I cannot claim either one works.
+I have not tested two things: whether an interactive session lets me approve those writes, and installing the plugin into my normal user-level Claude config. For the install I used an isolated config folder, because it cannot log in, and then loaded the installed copy with `--plugin-dir`. So I cannot claim either of those two works.
+
+Until this branch is merged, the plain `/plugin marketplace add mandziakl-cell/claude-multi-agent-workflow` reads `main`, which has no plugin yet. Add `#api-quality-plugin` to install from the branch.

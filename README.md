@@ -80,8 +80,14 @@ I tested the plugin with headless runs (`claude -p`) in throwaway copies of this
 - The workflow worked fully when the plugin was loaded from its own folder and the API was in a different project folder.
 - I have not tested whether an interactive session lets you approve those writes, so I cannot say it works from the repo root.
 
-**Not tested yet**
-- Installing from the marketplace with `/plugin marketplace add` and `/plugin install`.
+**Marketplace install (verified)**
+- I added the marketplace straight from GitHub at this branch (`mandziakl-cell/claude-multi-agent-workflow#api-quality-plugin`) and installed `api-quality-kit@api-quality-kit-marketplace` with `--scope local`, in a throwaway project and with an isolated Claude config folder. The plugin showed as enabled (version 0.1.0) and the install held every component.
+- In a fresh session with the installed copy loaded, the workflow ran in order and added tests to the project: 38 tests, 21 pass, 0 fail, 17 todo, lint exit 0. No application code changed.
+- Until this branch is merged, `/plugin marketplace add mandziakl-cell/claude-multi-agent-workflow` reads the default branch `main`, which does not have the plugin yet. Add `#api-quality-plugin` to the end to install from the branch.
+
+**Not tested**
+- Registering the marketplace in my normal user-level Claude config and running the command from there. I used an isolated config for the install, and the live run loaded the installed copy with `--plugin-dir`.
+- An interactive session, including approving writes.
 
 ## Layout
 
